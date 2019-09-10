@@ -1,6 +1,6 @@
 import Home from './Home';
 import Example from './Example';
-import FriendStatus from './FriendStatus';
+import FriendStatus from './useRef/useRefDemo';
 
 export {
     Home,
