@@ -1,5 +1,5 @@
 import React from 'react';
-import {ConfigContext} from './Parent';
+import { ConfigContext } from './Parent';
 
 function Child() {
     return (
@@ -10,3 +10,7 @@ function Child() {
 }
 
 export default Child;
+
+
+
+

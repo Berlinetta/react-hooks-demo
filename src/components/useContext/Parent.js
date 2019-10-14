@@ -5,10 +5,16 @@ export const ConfigContext = React.createContext();
 
 function Parent() {
     return (
-        <ConfigContext.Provider value={{text: "mytext"}}>
+        <ConfigContext.Provider value={{ text: "mytext" }}>
             <Child />
         </ConfigContext.Provider>
     );
 }
 
 export default Parent;
+
+
+
+
+
+

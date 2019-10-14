@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
-import {FriendStatus} from './components/index';
+import MyCom from './components/useRef/index';
 import {createGlobalStyle} from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
@@ -22,7 +22,7 @@ class App extends Component {
                 <GlobalStyle/>
                 <Provider store={store}>
                     <AContext.Provider value={{name: "A new"}}>
-                        <FriendStatus/>
+                        <MyCom/>
                     </AContext.Provider>
                 </Provider>
             </div>

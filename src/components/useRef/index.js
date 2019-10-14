@@ -1,5 +1,5 @@
 //import React, {useRef} from 'react';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 function useRef(value = null) {
     const innerRef = React.createRef();
@@ -8,35 +8,24 @@ function useRef(value = null) {
     return ref;
 }
 
-export default () => {
-    //var myRef = React.createRef("asdfsf");
-    //console.log(myRef.current);
-    const inputEle = useRef(null);//why not React.createRef()?
-    const myff = useRef("sdsdfsdf");//why not React.createRef()?
 
-    const onButtonClick = () => {
-        inputEle.current.focus();
-    };
 
+//const inputEle = React.createRef("asdfsf");
+//console.log(inputEle.current);
+
+
+
+
+export default function YourFunctionComponent() {
+    const inputEle = useRef(null);
     return (
         <div>
-            <input ref={inputEle} type="text"/>
-            <button onClick={onButtonClick}>Focus the input</button>
+            <input ref={inputEle} type="text" />
+            <button onClick={() => inputEle.current.focus()}>Focus The Input</button>
         </div>
     );
 };
 
-// export default () => {
-//     const inputEle = useRef(null);
-//
-//     const onButtonClick = () => {
-//         inputEle.current.focus();
-//     };
-//
-//     return (
-//         <div>
-//             <input ref={inputEle} type="text"/>
-//             <button onClick={onButtonClick}>Focus the input</button>
-//         </div>
-//     );
-// };
+
+
+
