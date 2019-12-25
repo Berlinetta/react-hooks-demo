@@ -1,0 +1,52 @@
+const _ = require("lodash");
+var rawString = "(owlid:(English) OR (* -p_is_translated:(1)) OR (p_is_parent:(1) AND -p_translated_language:(\"English\")))AND topic_owlid:['' TO *] AND (((owlid:(Industry_-_Sector_Research) AND p_published_date_time:([1419323101000 TO *])) OR (owlid:(Issuer_Research) AND p_published_date_time:([1514017501000 TO *]))) OR (* -owlid:(Issuer_Research Industry_ - _Sector_Research))) AND -owlid:(Credit_Opinion_ir) AND -owlid:(Issuer_Profile) AND -owlid:(Ratings_List) AND -owlid:(Research_News) AND -owlid:(Capital_Markets_Research) AND -owlid:(Special_Report_) AND -owlid:(Market_Outlook) AND -owlid:(MIR_CDS_dt) AND -owlid:(MIR_EMG_Markets_dt) AND -owlid:(MIR_MCS_dt) AND -owlid:(Market_Signals_Review_dt) AND -owlid:(Case_Study_dt) AND -owlid:(Methodology_cmr_dt) AND -owlid:(Market_Comment_dt) AND -owlid:(Sector_Insights_dt) AND -owlid:(Viewpoints_dt) AND -owlid:(Credit_Outlook) AND -owlid:(Ratings_Disclosures)";
+class ClauseParser {
+    constructor() {
+        this.id = -1;
+    }
+    generateId() {
+        return `__clause_id_${++this.id}__`;
+    }
+    parseClause(rawString, clauses) {
+        if (rawString.indexOf("(") < 0 && rawString.indexOf(")") < 0) {
+            return rawString;
+        }
+        if (!_.isArray(clauses)) {
+            clauses = [];
+        }
+        var lastLeftBracketIndex = 0;
+        var newString = "";
+        for (let i = 0; i < rawString.length; i++) {
+            if (rawString[i] == "(") {
+                lastLeftBracketIndex = i;
+            }
+            if (rawString[i] == ")") {
+                //store sub clause.
+                var subClause = rawString.substring(lastLeftBracketIndex, i + 1);
+                var clauseId = this.generateId();
+                clauses.push({clauseId, subClause});
+                //truncate raw string.
+                newString = rawString.substring(0, lastLeftBracketIndex) + clauseId + rawString.substring(i + 1);
+                break;
+            }
+        }
+        return this.parseClause(newString, clauses);
+    }
+}
+class ClausePrinter {
+    constructor() {
+        this.keywords = ["AND", "OR"];
+    }
+    printClause(clause) {
+    }
+    print(finalStr, clauses) {
+        finalStr.replace("AND", "\nAND\n");
+        finalStr.replace("OR", "\nOR\n");
+        var rootClauses = _.split(finalStr, /AND|OR/gi);
+    }
+}
+var ccs = [];
+var finalStr = new ClauseParser().parseClause(rawString, ccs);
+new ClausePrinter().print(finalStr, ccs);
+console.log(finalStr);
+console.log(ccs);
