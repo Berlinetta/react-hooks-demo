@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const gulpSequence = require('gulp-sequence');
 const rimraf = require('gulp-rimraf');
 const concat = require('gulp-concat');
 const React = require('react');
@@ -33,7 +32,7 @@ gulp.task('clean-demo', () => {
                 `${DOCS_OUT_DIR}/app.css.map`,
                 `${DOCS_OUT_DIR}/vendor.js`
             ],
-            {read: false}
+            {read: false, allowEmpty: true}
         )
         .pipe(rimraf({force: true}));
 });
@@ -50,11 +49,5 @@ gulp.task('bundle-demo-app', () => {
         .pipe(webpackStream(getConfig()))
         .pipe(gulp.dest(`./${DOCS_OUT_DIR}/`));
 });
-gulp.task('demo', gulpSequence('bundle-demo-vendor', 'bundle-demo-app'));
-gulp.task(
-    'default',
-    gulpSequence(
-        ['clean-demo'],
-        ['demo']
-    )
-);
+gulp.task('demo', gulp.series('bundle-demo-vendor'));
+gulp.task('default', gulp.series('clean-demo', 'demo'));
